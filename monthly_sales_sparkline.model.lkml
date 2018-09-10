@@ -7,7 +7,8 @@ include: "*.view.lkml"                       # include all views in this project
 explore: order_items_ext {
   label: "Order Items"
   view_label: "Order Items"
-  fields: [-order_items_ext.date_from_parameter]
+  fields: [ALL_FIELDS*,-order_items_ext.date_from_parameter, -order_items_ext.average_spend_per_user,
+          -order_items_ext.profit, -order_items_ext.gross_margin, -order_items_ext.cost_price]
   join: inventory_items_ext {
     view_label: "Inventory Items"
     type: full_outer
