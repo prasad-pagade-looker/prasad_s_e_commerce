@@ -105,7 +105,7 @@ view: order_items {
 
   dimension: date_from_parameter {
     label_from_parameter: date_granularity
-    type: yesno
+    type: number
     sql:
       CASE
         WHEN {% parameter date_granularity %} = 'Quarter' THEN
