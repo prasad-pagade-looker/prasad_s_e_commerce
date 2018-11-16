@@ -66,6 +66,19 @@ view: order_items {
     ;;
     value_format_name: decimal_0
   }
+
+  measure: dynamic_measure_1 {
+    description: "Use with period_over_period_comparison_1"
+    label_from_parameter: dynamic_measure_type
+    #type: number
+    sql:
+        CASE WHEN {% parameter dynamic_measure_type  %} = 'total_sale_price' then SUM(${sale_price})
+             WHEN {% parameter dynamic_measure_type  %} = 'order_counts'     then COUNT(${id})
+        ELSE NULL
+        END
+    ;;
+    value_format_name: decimal_0
+  }
 ################################################################################
   dimension: id {
     hidden: yes
@@ -466,6 +479,69 @@ measure: sales_dynamic_measure {
   ;;
   value_format_name: usd
 }
+
+  measure: total_sale_price_drill_test {
+    type: sum
+    value_format_name: usd
+    sql: ${sale_price} ;;
+    drill_fields: [created_month, users.gender, total_sale_price]
+    link: {
+      label: "Explore with visual drilling"
+      url: "
+      {% assign table_calc = '[
+      { \"table_calculation\": \"percent_of_total\",
+      \"label\": \"Percent of Total\",
+      \"expression\": \"${order_items.created_month}\",
+      \"value_format\": null,
+      \"value_format_name\": \"percent_2\",
+      \"_kind_hint\": \"supermeasure\",
+      \"_type_hint\": \"number\"
+      },
+      ]' %}
+      {% assign vis_config = '{
+      \"type\": \"table\",
+      \"show_view_names\": false,
+      \"show_row_numbers\": false,
+      \"truncate_column_names\": false,
+      \"table_theme\": \"gray\",
+      \"enable_conditional_formatting\": true,
+      \"conditional_formatting\": [
+      {
+      \"type\": \"low to high\",
+      \"value\": null,
+      \"background_color\": null,
+      \"font_color\": null,
+      \"palette\": {
+      \"name\": \"Custom\",
+      \"colors\": [
+      \"#FFFFFF\",
+      \"#6e00ff\"
+      ]},
+      \"bold\": false,
+      \"italic\": false,
+      \"strikethrough\": false,
+      \"fields\": [
+      \"growth_rate\"
+      ]},{
+      \"type\": \"low to high\",
+      \"value\": null,
+      \"background_color\": null,
+      \"font_color\": null,
+      \"palette\": {
+      \"name\": \"Custom\",
+      \"colors\": [
+      \"#FFFFFF\",
+      \"#88ff78\"
+      ]},
+      \"bold\": false,
+      \"italic\": false,
+      \"strikethrough\": false,
+      \"fields\": [
+      \"percent_of_total\"
+      ]}]}' %}
+      {{link}}&total=on&row_total=right&dynamic_fields={{ table_calc | replace: '  ', '' | encode_uri }}&pivots=users.gender&vis_config={{ vis_config | replace: '  ', '' | encode_uri }}"
+    }
+  }
 
 
 ####################################################################

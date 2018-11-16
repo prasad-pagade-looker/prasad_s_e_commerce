@@ -17,11 +17,11 @@ include: "*.view.lkml"         # include all views in this project
 # }
 explore: order_items {
   always_join: [inventory_items]
-  access_filter: {
-    field: products.brand_new
-    user_attribute: brand
-  }
-  sql_always_where: ${order_items.period_over_period_comparison} is not null ;;
+#   access_filter: {
+#     field: products.brand_new
+#     user_attribute: brand
+#   }
+  #sql_always_where: ${order_items.period_over_period_comparison} is not null ;;
 
   join: user_rev  {
     type:  left_outer

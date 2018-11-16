@@ -2,10 +2,16 @@ connection: "thelook_events_redshift"
 
 include: "*.view.lkml"                       # include all views in this project
 # include: "my_dashboard.dashboard.lookml"   # include a LookML dashboard called my_dashboard
+# access_grant: user_type {
+#   allowed_values: ["basic","advanced"]
+#   user_attribute: user_type
+# }
 
 ## Explore definitions
+
 explore: order_items_ext {
-  label: "Order Items"
+  #required_access_grants: [user_type]
+  label: "Order Items - Advanced"
   view_label: "Order Items"
   fields: [ALL_FIELDS*,-order_items_ext.date_from_parameter, -order_items_ext.average_spend_per_user,
           -order_items_ext.profit, -order_items_ext.gross_margin, -order_items_ext.cost_price]
