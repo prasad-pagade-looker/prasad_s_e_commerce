@@ -7,9 +7,6 @@ include: "*.view.lkml"                       # include all views in this project
 #   user_attribute: user_type
 # }
 
-datagroup: pdt {
-  sql_trigger: select max(signup_month) from ${dt_user_purchase_activity.SQL_TABLE_NAME} ;;
-}
 
 ## Explore definitions
 
