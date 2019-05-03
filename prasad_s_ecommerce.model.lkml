@@ -15,6 +15,9 @@ include: "*.view.lkml"         # include all views in this project
 #   from: order_items
 
 # }
+
+
+
 explore: order_items {
   always_join: [inventory_items]
 #   access_filter: {

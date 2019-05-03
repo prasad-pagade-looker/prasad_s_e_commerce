@@ -11,6 +11,8 @@ include: "*.view.lkml"                       # include all views in this project
 ## Explore definitions
 
 explore: order_items_ext {
+
+
   #required_access_grants: [user_type]
   label: "Order Items - Advanced"
   view_label: "Order Items"
